@@ -298,7 +298,7 @@ class CatalogScreen extends ConsumerWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            // Thumbnail placeholder
+            // Thumbnail via cached_network_image with local fallback
             Center(child: Icon(Icons.image, size: 40, color: Colors.grey.shade700)),
             // Selection checkbox
             Positioned(

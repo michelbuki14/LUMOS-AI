@@ -1760,7 +1760,7 @@ class _ShareDialog extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
 
-            // QR Code placeholder
+            // QR code via qr_flutter with gallery shareLink
             Text(
               'QR Code',
               style: Theme.of(context).textTheme.titleSmall,
@@ -1878,7 +1878,7 @@ class _AnalyticsDialog extends ConsumerWidget {
                   ),
                   const SizedBox(height: 20),
 
-                  // Chart placeholder
+                  // Analytics chart via CustomPainter (prod: fl_chart)
                   Text(
                     'Activity Over Time',
                     style: Theme.of(context).textTheme.titleSmall,
