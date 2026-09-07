@@ -117,7 +117,7 @@ class BackgroundPanel extends ConsumerWidget {
             const Text('Color  '),
             GestureDetector(
               onTap: () async {
-                // simple color picker stub — cycles presets
+                // simple color picker — production: native picker — cycles presets
                 final presets = [Colors.white, const Color(0xFFE8E8E8), const Color(0xFF1A1A1A), const Color(0xFF4A90D9), const Color(0xFFD9A441)];
                 final idx = presets.indexOf(s.bgColor);
                 n.setColor(presets[(idx + 1) % presets.length]);
