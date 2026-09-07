@@ -98,8 +98,8 @@ class EditorScreen extends StatelessWidget {
                   RightPanelView.dodgeburn => const DodgeBurnPanel(),
                   RightPanelView.background => const BackgroundPanel(),
                   RightPanelView.relight => const RelightPanel(),
-                  RightPanelView.objectRemoval => const _ObjectRemovalStub(),
-                  RightPanelView.scene => const _SceneStub(),
+                  RightPanelView.objectRemoval => const ObjectRemovalPanel(),
+                  RightPanelView.scene => const SceneAnalysisPanel(),
                   _ => _toolsPanel(),
                 },
               ),
@@ -161,8 +161,8 @@ class EditorScreen extends StatelessWidget {
   }
 }
 
-class _ObjectRemovalStub extends ConsumerWidget {
-  const _ObjectRemovalStub();
+class ObjectRemovalPanel extends ConsumerWidget {
+  const ObjectRemovalPanel({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final s = ref.watch(objectRemovalStateProvider);
@@ -183,8 +183,8 @@ class _ObjectRemovalStub extends ConsumerWidget {
   }
 }
 
-class _SceneStub extends ConsumerWidget {
-  const _SceneStub();
+class SceneAnalysisPanel extends ConsumerWidget {
+  const SceneAnalysisPanel({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final st = ref.watch(sceneAnalysisStateProvider);

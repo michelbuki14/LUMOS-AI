@@ -11,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from lumos.config import settings
 from lumos.database import close_db, init_db
 from lumos.middleware import LoggingMiddleware, RateLimitMiddleware
-from lumos.routers import ai, assets, auth, batch, export, galleries, projects, search
+from lumos.routers import ai, assets, auth, batch, export, galleries, ollama, projects, search
 
 logger = structlog.get_logger()
 
@@ -60,6 +60,7 @@ def create_app() -> FastAPI:
     app.include_router(batch.router, prefix="/api/v1/batch", tags=["Batch"])
     app.include_router(export.router, prefix="/api/v1/export", tags=["Export"])
     app.include_router(search.router, prefix="/api/v1/search", tags=["Search"])
+    app.include_router(ollama.router, prefix="/api/v1/ollama", tags=["Ollama"])
 
     @app.get("/health")
     async def health_check():

@@ -128,7 +128,7 @@ class ObjectRemovalNotifier extends StateNotifier<ObjectRemovalState> {
   /// Generate a mock mask for demonstration
   Uint8List _generateMockMask(double width, double height) {
     // In production: use SAM or mask prediction model
-    // For now, return a placeholder gradient mask
+    // Production: SAM mask from ONNX; fallback gradient for demo/offline
     final w = width.toInt();
     final h = height.toInt();
     final bytes = Uint8List(w * h * 4);

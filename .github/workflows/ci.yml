@@ -44,13 +44,13 @@ jobs:
       - name: Lint Python (API)
         run: |
           cd services/api
-          pip install "ruff==0.8.6"
+          pip install ruff==0.8.6
           ruff check lumos/
 
       - name: Lint Python (AI)
         run: |
           cd services/ai
-          pip install "ruff==0.8.6"
+          pip install ruff==0.8.6
           ruff check lumos/
 
       - name: Lint Rust

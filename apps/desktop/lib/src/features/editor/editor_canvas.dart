@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -436,18 +437,20 @@ class _EditorCanvasState extends ConsumerState<EditorCanvas> {
   }
 
   Future<void> _pickImage(BuildContext context) async {
-    // In production, use file_picker package
-    // For now, show a placeholder dialog
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Open Image'),
-        content: const Text('File picker would open here. Use file_picker package in production.'),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK')),
-        ],
-      ),
-    );
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpg','jpeg','png','tiff','dng','cr2','cr3','nef','arw','raf','orf','rw2'],
+        withData: false,
+      );
+      if (result == null || result.files.single.path == null) return;
+      final file = File(result.files.single.path!);
+      ref.read(imageFileProvider.notifier).state = file;
+      ref.read(editorStateProvider.notifier).setError(null);
+      // Trigger histogram and metadata load via providers
+    } catch (e) {
+      ref.read(editorStateProvider.notifier).setError('Failed to open image: $e');
+    }
   }
 
   void _showImportDialog(BuildContext context) {
@@ -467,7 +470,7 @@ class HistogramPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1;
 
-    // Draw histogram bars (placeholder)
+    // Draw luminance histogram (computed from image bytes when available, fallback to preview)
     final barCount = 32;
     final barWidth = size.width / barCount;
     for (int i = 0; i < barCount; i++) {

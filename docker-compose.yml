@@ -74,7 +74,11 @@ services:
       JWT_SECRET: lumos_jwt_secret_dev_key_change_in_production
       AI_SERVICE_URL: http://ai:8001
       RENDER_SERVICE_URL: http://render:8002
+      OLLAMA_URL: http://host.docker.internal:11434
+      OLLAMA_MODEL: qwen:latest
       DEBUG: "true"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "8000:8000"
     volumes:
@@ -99,6 +103,8 @@ services:
     environment:
       REDIS_URL: redis://redis:6379/0
       MODEL_CACHE_DIR: /app/models
+      OLLAMA_URL: http://ollama:11434
+      OLLAMA_MODEL: qwen:latest
       CUDA_VISIBLE_DEVICES: all
       TORCH_CUDA_ARCH_LIST: "7.0;7.5;8.0;8.6;9.0"
     ports:
@@ -128,12 +134,26 @@ services:
     networks:
       - lumos-network
 
+  # Ollama — Local LLM (qwen:latest already at http://localhost:11434, use host.docker.internal in Docker)
+  ollama:
+    image: ollama/ollama:latest
+    container_name: lumos-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - lumos-network
+    profiles: [with-ollama]
+    restart: unless-stopped
+
 volumes:
   postgres_data:
   redis_data:
   minio_data:
   api_storage:
   ai_models:
+  ollama_data:
 
 networks:
   lumos-network:

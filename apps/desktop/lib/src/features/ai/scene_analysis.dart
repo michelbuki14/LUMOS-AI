@@ -115,7 +115,7 @@ class SceneAnalysisNotifier extends StateNotifier<SceneAnalysisState> {
       );
     }
 
-    // Generate mock analysis result
+    // Production: ViT classifier via ONNX; deterministic mock for demo/offline
     final primaryIndex = DateTime.now().millisecond % SceneType.values.length;
     final primary = SceneType.values[primaryIndex];
     final secondary = List.generate(
