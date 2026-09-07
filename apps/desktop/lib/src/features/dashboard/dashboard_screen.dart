@@ -37,12 +37,12 @@ class DashboardScreen extends ConsumerWidget {
             actions: [
               IconButton(
                 icon: const Icon(Icons.notifications_outlined),
-                onPressed: () {},
+                onPressed: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Action'))),
               ),
               const SizedBox(width: 8),
               IconButton(
                 icon: const Icon(Icons.cloud_outlined),
-                onPressed: () {},
+                onPressed: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Action'))),
               ),
               const SizedBox(width: 16),
             ],

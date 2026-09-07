@@ -833,7 +833,7 @@ class _GalleriesScreenState extends ConsumerState<GalleriesScreen> {
             ),
             const SizedBox(height: 16),
             OutlinedButton.icon(
-              onPressed: () {},
+              onPressed: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Gallery action'))),
               icon: const Icon(Icons.add_photo_alternate),
               label: const Text('Add Images'),
             ),

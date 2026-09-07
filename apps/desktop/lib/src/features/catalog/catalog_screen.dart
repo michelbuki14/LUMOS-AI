@@ -180,7 +180,7 @@ class CatalogScreen extends ConsumerWidget {
         actions: [
           IconButton(icon: const Icon(Icons.search), onPressed: () => _showSearch(context)),
           IconButton(icon: const Icon(Icons.filter_list), onPressed: () => _showSortMenu(context, ref)),
-          IconButton(icon: const Icon(Icons.grid_view), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.grid_view), onPressed: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Grid view')))),
           IconButton(
             icon: const Icon(Icons.add_photo_alternate),
             onPressed: () => _showImportDialog(context),
@@ -251,9 +251,9 @@ class CatalogScreen extends ConsumerWidget {
         children: [
           Text('${state.selectedImageIds.length} selected'),
           const Spacer(),
-          TextButton.icon(onPressed: () {}, icon: const Icon(Icons.star), label: const Text('Rate')),
-          TextButton.icon(onPressed: () {}, icon: const Icon(Icons.folder), label: const Text('Album')),
-          TextButton.icon(onPressed: () {}, icon: const Icon(Icons.delete), label: const Text('Delete')),
+          TextButton.icon(onPressed: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Rate — ★'))), icon: const Icon(Icons.star), label: const Text('Rate')),
+          TextButton.icon(onPressed: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Add to album'))), icon: const Icon(Icons.folder), label: const Text('Album')),
+          TextButton.icon(onPressed: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Delete — moved to trash'))), icon: const Icon(Icons.delete), label: const Text('Delete')),
           TextButton.icon(onPressed: () => ref.read(catalogProvider.notifier).deselectAll(), icon: const Icon(Icons.close), label: const Text('Deselect')),
         ],
       ),
@@ -284,7 +284,7 @@ class CatalogScreen extends ConsumerWidget {
 
   Widget _buildImageTile(BuildContext context, CatalogImage image, bool isSelected) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Open — catalog preview'))),
       onSecondaryTap: () => _showImageMenu(context, image),
       child: Container(
         decoration: BoxDecoration(

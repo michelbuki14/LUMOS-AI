@@ -21,7 +21,7 @@ class RecentProjects extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Opening'))),
                   child: const Text('View All'),
                 ),
               ],

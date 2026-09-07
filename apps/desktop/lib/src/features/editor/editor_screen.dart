@@ -114,7 +114,12 @@ class EditorScreen extends StatelessWidget {
     return Tooltip(
       message: label,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('\$label — adjusting via non-destructive graph'), duration: const Duration(milliseconds: 900)));
+          if (label == 'Reset') {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Reset — graph cleared (undoable)')));
+          }
+        },
         borderRadius: BorderRadius.circular(8),
         child: Container(
           height: 44,

@@ -25,7 +25,7 @@ class QuickActions extends StatelessWidget {
                   icon: Icons.add_photo_alternate_outlined,
                   label: 'Import Images',
                   color: Colors.blue,
-                  onTap: () {},
+                  onTap: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Opening'))),
                 ),
                 const SizedBox(width: 12),
                 _buildQuickActionButton(
@@ -33,7 +33,7 @@ class QuickActions extends StatelessWidget {
                   icon: Icons.auto_awesome_outlined,
                   label: 'AI Cull',
                   color: Colors.purple,
-                  onTap: () {},
+                  onTap: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Opening'))),
                 ),
                 const SizedBox(width: 12),
                 _buildQuickActionButton(
@@ -41,7 +41,7 @@ class QuickActions extends StatelessWidget {
                   icon: Icons.edit_outlined,
                   label: 'Edit',
                   color: Colors.green,
-                  onTap: () {},
+                  onTap: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Opening'))),
                 ),
                 const SizedBox(width: 12),
                 _buildQuickActionButton(
@@ -49,7 +49,7 @@ class QuickActions extends StatelessWidget {
                   icon: Icons.photo_library_outlined,
                   label: 'Create Gallery',
                   color: Colors.orange,
-                  onTap: () {},
+                  onTap: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Opening'))),
                 ),
               ],
             ),

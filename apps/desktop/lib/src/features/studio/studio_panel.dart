@@ -30,14 +30,14 @@ class StudioPanel extends ConsumerWidget{
           _row('Tomorrow 09:00','RE Shoot — North','Pending', Colors.orangeAccent),
           _row('Fri 14:00','Portrait — Ava','Draft', Colors.white54),
           const SizedBox(height:12),
-          FilledButton.icon(onPressed: (){}, icon: const Icon(Icons.add, size:16), label: const Text('New booking')),
+          FilledButton.icon(onPressed: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('New booking — calendar'))), icon: const Icon(Icons.add, size:16), label: const Text('New booking')),
         ]),
         _ => ListView(padding: const EdgeInsets.all(16), children:[
           _row('INV-001','Belle Weddings — \$2,400','Paid', Colors.greenAccent),
           _row('INV-002','North RE — \$850','Sent', Colors.orangeAccent),
           _row('INV-003','Ava Studio — \$1,200','Overdue', Colors.redAccent),
           const SizedBox(height:12),
-          OutlinedButton.icon(onPressed: (){}, icon: const Icon(Icons.download, size:16), label: const Text('Export CSV')),
+          OutlinedButton.icon(onPressed: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Export CSV'))), icon: const Icon(Icons.download, size:16), label: const Text('Export CSV')),
         ]),
       }),
     ]);
