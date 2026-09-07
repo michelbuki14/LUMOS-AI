@@ -4,7 +4,7 @@
 
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
 import structlog
 from contextlib import asynccontextmanager
@@ -55,7 +55,7 @@ class HealthResponse(BaseModel):
 class InferenceRequest(BaseModel):
     model_id: str
     inputs: Dict[str, Any]
-    parameters: Optional[Dict[str, Any]] = {}
+    parameters: Optional[Dict[str, Any]] = Field(default_factory=dict)
 
 
 class InferenceResponse(BaseModel):
@@ -112,6 +112,16 @@ async def predict(request: InferenceRequest):
         outputs=outputs,
         processing_time_ms=(time.time() - start) * 1000,
     )
+
+
+@app.post("/batch_predict")
+async def batch_predict(requests: List[InferenceRequest]):
+    """Run inference for multiple requests in one call."""
+    results = []
+    for request in requests:
+        result = await predict(request)
+        results.append(result.model_dump())
+    return {"results": results}
 
 
 @app.post("/cull", response_model=List[CullingResult])
