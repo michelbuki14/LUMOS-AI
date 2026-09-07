@@ -151,7 +151,7 @@ class ApiService {
   }
 
   Future<void> closeGallery(String galleryId) async {
-    final response = await _dio.post('/api/v1/galleries/$galleryId', data: {
+    await _dio.post('/api/v1/galleries/$galleryId', data: {
       'action': 'close',
     });
   }

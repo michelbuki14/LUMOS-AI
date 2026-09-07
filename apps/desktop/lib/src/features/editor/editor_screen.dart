@@ -146,26 +146,6 @@ class EditorScreen extends StatelessWidget {
     );
   }
 
-  Widget _exportToolButton(BuildContext context) {
-    return Tooltip(
-      message: 'Export',
-      child: InkWell(
-        onTap: () {
-          // navigate to Export rail — find MainScreen state via context
-          final scaffold = context.findAncestorStateOfType<State<StatefulWidget>>();
-          // fallback: just show snackbar
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Open Export tab (rail → Export)')));
-        },
-        borderRadius: BorderRadius.circular(8),
-        child: Container(
-          height: 36,
-          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-          child: const Icon(Icons.ios_share_outlined, size: 18, color: Color(0xFFB0B0B0)),
-        ),
-      ),
-    );
-  }
-
   Widget _toolsPanel() {
     return const Center(
       child: Text(

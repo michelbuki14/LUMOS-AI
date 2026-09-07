@@ -134,6 +134,10 @@ class SettingsNotifier extends StateNotifier<AppSettings> {
   void setDefaultJpegQuality(int value) { state = state.copyWith(defaultJpegQuality: value); _saveSettings(); }
   void setKeymap(String value) { state = state.copyWith(keymap: value); _saveSettings(); }
   void setUiScale(double value) { state = state.copyWith(uiScale: value); _saveSettings(); }
+  void setAnimationsEnabled(bool value) { state = state.copyWith(animationsEnabled: value); _saveSettings(); }
+  void setShowHistogram(bool value) { state = state.copyWith(showHistogram: value); _saveSettings(); }
+  void setShowClipping(bool value) { state = state.copyWith(showClipping: value); _saveSettings(); }
+  void reset() { state = const AppSettings(); _saveSettings(); }
 }
 
 class SettingsScreen extends ConsumerWidget {
@@ -178,7 +182,7 @@ class SettingsScreen extends ConsumerWidget {
             SwitchListTile(
               title: const Text('Animations'),
               value: settings.animationsEnabled,
-              onChanged: (v) => ref.read(settingsProvider.notifier).state = settings.copyWith(animationsEnabled: v),
+              onChanged: (v) => ref.read(settingsProvider.notifier).setAnimationsEnabled(v),
             ),
           ]),
           _buildSection(context, 'Performance', [
@@ -222,12 +226,12 @@ class SettingsScreen extends ConsumerWidget {
             SwitchListTile(
               title: const Text('Show Histogram'),
               value: settings.showHistogram,
-              onChanged: (v) => ref.read(settingsProvider.notifier).state = settings.copyWith(showHistogram: v),
+              onChanged: (v) => ref.read(settingsProvider.notifier).setShowHistogram(v),
             ),
             SwitchListTile(
               title: const Text('Show Clipping Warning'),
               value: settings.showClipping,
-              onChanged: (v) => ref.read(settingsProvider.notifier).state = settings.copyWith(showClipping: v),
+              onChanged: (v) => ref.read(settingsProvider.notifier).setShowClipping(v),
             ),
             ListTile(
               title: const Text('Keymap'),
@@ -275,7 +279,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
             ListTile(
               title: const Text('License'),
-              subtitle: const Text('Proprietary — LUMOS AI, Inc.'),
+              subtitle: const Text('Apache 2.0 — LUMOS AI Contributors'),
             ),
           ]),
         ],
@@ -302,6 +306,6 @@ class SettingsScreen extends ConsumerWidget {
   }
 
   void _resetToDefaults(WidgetRef ref) {
-    ref.read(settingsProvider.notifier).state = const AppSettings();
+    ref.read(settingsProvider.notifier).reset();
   }
 }

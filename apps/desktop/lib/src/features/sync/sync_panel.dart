@@ -18,6 +18,7 @@ class SyncState{
 class SyncNotifier extends StateNotifier<SyncState>{
   SyncNotifier():super(const SyncState());
   void setEnabled(bool v)=> state=state.copyWith(enabled:v, status: v? SyncStatus.synced : SyncStatus.offline);
+  void reset()=> state=const SyncState();
   Future<void> syncNow() async{
     if(!state.enabled) return;
     state=state.copyWith(status: SyncStatus.syncing, progress:0.2);
@@ -52,7 +53,7 @@ class SyncPanel extends ConsumerWidget{
           Row(children:[
             FilledButton.icon(onPressed: !s.enabled || s.status==SyncStatus.syncing? null : n.syncNow, icon: const Icon(Icons.sync, size:16), label: const Text('Sync now')),
             const SizedBox(width:8),
-            OutlinedButton(onPressed: ()=> ref.read(syncProvider.notifier).state=const SyncState(), child: const Text('Reset')),
+            OutlinedButton(onPressed: ()=> ref.read(syncProvider.notifier).reset(), child: const Text('Reset')),
           ]),
         ])),
       const SizedBox(height:8),

@@ -576,12 +576,11 @@ class _BatchScreenState extends ConsumerState<BatchScreen> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final queue = ref.watch(batchQueueProvider);
     final jobState = ref.watch(batchJobProvider);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
+      backgroundColor: Color(0xFF0F172A),
       body: Column(
         children: [
           // ── Top Toolbar ───────────────────────────────────────────────
@@ -590,14 +589,14 @@ class _BatchScreenState extends ConsumerState<BatchScreen> with SingleTickerProv
           // ── Tab Bar ───────────────────────────────────────────────────
           Container(
             decoration: BoxDecoration(
-              color: const Color(0xFF1E293B),
+              color: Color(0xFF1E293B),
               border: Border(
                 bottom: BorderSide(color: Colors.grey.shade800),
               ),
             ),
             child: TabBar(
               controller: _tabController,
-              indicatorColor: const Color(0xFF6366F1),
+              indicatorColor: Color(0xFF6366F1),
               labelColor: Colors.white,
               unselectedLabelColor: Colors.grey.shade500,
               tabs: const [
@@ -633,7 +632,7 @@ class _BatchScreenState extends ConsumerState<BatchScreen> with SingleTickerProv
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B),
+        color: Color(0xFF1E293B),
         border: Border(bottom: BorderSide(color: Colors.grey.shade800)),
       ),
       child: Row(
@@ -658,7 +657,7 @@ class _BatchScreenState extends ConsumerState<BatchScreen> with SingleTickerProv
           _ToolbarButton(
             icon: Icons.play_arrow,
             label: 'Run Batch',
-            color: const Color(0xFF10B981),
+            color: Color(0xFF10B981),
             onPressed: isRunning ? null : () => _runBatch(),
           ),
           const SizedBox(width: 8),
@@ -669,7 +668,7 @@ class _BatchScreenState extends ConsumerState<BatchScreen> with SingleTickerProv
           _ToolbarButton(
             icon: isPaused ? Icons.play_arrow : Icons.pause,
             label: isPaused ? 'Resume' : 'Pause',
-            color: const Color(0xFFF59E0B),
+            color: Color(0xFFF59E0B),
             onPressed: (!isRunning && !isPaused) ? null : () {
               if (isPaused) {
                 ref.read(batchJobProvider.notifier).resume();
@@ -684,7 +683,7 @@ class _BatchScreenState extends ConsumerState<BatchScreen> with SingleTickerProv
           _ToolbarButton(
             icon: Icons.stop,
             label: 'Cancel',
-            color: const Color(0xFFEF4444),
+            color: Color(0xFFEF4444),
             onPressed: (!isRunning && !isPaused) ? null : () {
               ref.read(batchJobProvider.notifier).cancel();
             },
@@ -743,7 +742,7 @@ class _BatchScreenState extends ConsumerState<BatchScreen> with SingleTickerProv
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B),
+        color: Color(0xFF1E293B),
         border: Border(top: BorderSide(color: Colors.grey.shade800)),
       ),
       child: Column(
@@ -776,8 +775,8 @@ class _BatchScreenState extends ConsumerState<BatchScreen> with SingleTickerProv
               backgroundColor: Colors.grey.shade800,
               valueColor: AlwaysStoppedAnimation<Color>(
                 jobState.status == BatchRunStatus.completed
-                    ? const Color(0xFF10B981)
-                    : const Color(0xFF6366F1),
+                    ? Color(0xFF10B981)
+                    : Color(0xFF6366F1),
               ),
               minHeight: 8,
             ),
@@ -904,7 +903,7 @@ class _ImageSelectorDialog extends ConsumerWidget {
     return StatefulBuilder(
       builder: (context, setState) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF1E293B),
+          backgroundColor: Color(0xFF1E293B),
           title: const Text('Select Images from Catalog'),
           content: SizedBox(
             width: 600,
@@ -935,7 +934,7 @@ class _ImageSelectorDialog extends ConsumerWidget {
                       color: Colors.grey.shade800,
                       borderRadius: BorderRadius.circular(8),
                       border: isSelected
-                          ? Border.all(color: const Color(0xFF6366F1), width: 2)
+                          ? Border.all(color: Color(0xFF6366F1), width: 2)
                           : null,
                     ),
                     child: Stack(
@@ -997,7 +996,7 @@ class _CreateTemplateDialog extends ConsumerWidget {
     final nameController = TextEditingController();
 
     return AlertDialog(
-      backgroundColor: const Color(0xFF1E293B),
+      backgroundColor: Color(0xFF1E293B),
       title: const Text('Create Batch Template'),
       content: SizedBox(
         width: 400,
@@ -1069,7 +1068,7 @@ class _ToolbarButton extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
-            color: onPressed == null ? Colors.grey.shade900 : (color?.withOpacity(0.1) ?? Colors.grey.shade800),
+            color: onPressed == null ? Colors.grey.shade900 : (color?.withValues(alpha: 0.1) ?? Colors.grey.shade800),
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
               color: onPressed == null ? Colors.grey.shade800 : (color ?? Colors.grey.shade700),
@@ -1112,7 +1111,7 @@ class _ImageQueuePanel extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      color: const Color(0xFF111827),
+      color: Color(0xFF111827),
       child: Column(
         children: [
           // Header
@@ -1187,11 +1186,11 @@ class _QueueImageTile extends ConsumerWidget {
       case ImageBatchStatus.pending:
         return Colors.grey;
       case ImageBatchStatus.processing:
-        return const Color(0xFF6366F1);
+        return Color(0xFF6366F1);
       case ImageBatchStatus.completed:
-        return const Color(0xFF10B981);
+        return Color(0xFF10B981);
       case ImageBatchStatus.failed:
-        return const Color(0xFFEF4444);
+        return Color(0xFFEF4444);
     }
   }
 
@@ -1213,11 +1212,11 @@ class _QueueImageTile extends ConsumerWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 4),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B),
+        color: Color(0xFF1E293B),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: image.status == ImageBatchStatus.processing
-              ? const Color(0xFF6366F1).withOpacity(0.5)
+              ? Color(0xFF6366F1).withValues(alpha: 0.5)
               : Colors.transparent,
         ),
       ),
@@ -1288,7 +1287,7 @@ class _TemplateEditorPanel extends ConsumerWidget {
     final operations = ref.watch(batchOperationsProvider);
 
     return Container(
-      color: const Color(0xFF111827),
+      color: Color(0xFF111827),
       child: Column(
         children: [
           // Header
@@ -1342,7 +1341,7 @@ class _TemplateEditorPanel extends ConsumerWidget {
                         value: op,
                         child: Row(
                           children: [
-                            Icon(op.icon, size: 16, color: const Color(0xFF8B5CF6)),
+                            Icon(op.icon, size: 16, color: Color(0xFF8B5CF6)),
                             const SizedBox(width: 8),
                             Text(op.displayName, style: const TextStyle(fontSize: 12)),
                           ],
@@ -1407,13 +1406,13 @@ class _OperationTileState extends ConsumerState<_OperationTile> {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.only(bottom: 4),
-      color: const Color(0xFF1E293B),
+      color: Color(0xFF1E293B),
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
         side: BorderSide(
           color: widget.operation.type.isAi
-              ? const Color(0xFF8B5CF6).withOpacity(0.3)
+              ? Color(0xFF8B5CF6).withValues(alpha: 0.3)
               : Colors.grey.shade800,
         ),
       ),
@@ -1425,8 +1424,8 @@ class _OperationTileState extends ConsumerState<_OperationTile> {
               widget.operation.type.icon,
               size: 18,
               color: widget.operation.type.isAi
-                  ? const Color(0xFF8B5CF6)
-                  : const Color(0xFF6366F1),
+                  ? Color(0xFF8B5CF6)
+                  : Color(0xFF6366F1),
             ),
             title: Text(
               widget.operation.type.displayName,
@@ -1439,7 +1438,7 @@ class _OperationTileState extends ConsumerState<_OperationTile> {
                 Switch(
                   value: widget.operation.enabled,
                   onChanged: (_) => ref.read(batchOperationsProvider.notifier).toggleOperation(widget.operation.id),
-                  activeColor: const Color(0xFF6366F1),
+                  activeColor: Color(0xFF6366F1),
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 // Expand
@@ -1736,7 +1735,7 @@ class _OperationTileState extends ConsumerState<_OperationTile> {
               min: min,
               max: max,
               onChanged: (v) {},
-              activeColor: const Color(0xFF6366F1),
+              activeColor: Color(0xFF6366F1),
               inactiveColor: Colors.grey.shade700,
             ),
           ),
@@ -1824,11 +1823,11 @@ class _OperationTileState extends ConsumerState<_OperationTile> {
           const SizedBox(width: 8),
           Expanded(
             child: DropdownButtonFormField<String>(
-              value: options.first,
+              initialValue: options.first,
               isDense: true,
               isExpanded: true,
               style: const TextStyle(fontSize: 11, color: Colors.white),
-              dropdownColor: const Color(0xFF1E293B),
+              dropdownColor: Color(0xFF1E293B),
               decoration: InputDecoration(
                 isDense: true,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
@@ -1861,7 +1860,7 @@ class _BatchSettingsPanel extends ConsumerWidget {
     final settings = ref.watch(batchSettingsProvider);
 
     return Container(
-      color: const Color(0xFF111827),
+      color: Color(0xFF111827),
       child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -1921,7 +1920,7 @@ class _BatchSettingsPanel extends ConsumerWidget {
                   title: const Text('Enable resize', style: TextStyle(fontSize: 12)),
                   dense: true,
                   contentPadding: EdgeInsets.zero,
-                  activeColor: const Color(0xFF6366F1),
+                  activeColor: Color(0xFF6366F1),
                 ),
                 if (settings.resizeEnabled) ...[
                   const SizedBox(height: 8),
@@ -1956,7 +1955,7 @@ class _BatchSettingsPanel extends ConsumerWidget {
                     title: const Text('Maintain aspect ratio', style: TextStyle(fontSize: 11)),
                     dense: true,
                     contentPadding: EdgeInsets.zero,
-                    activeColor: const Color(0xFF6366F1),
+                    activeColor: Color(0xFF6366F1),
                   ),
                 ],
               ],
@@ -2059,7 +2058,7 @@ class _BatchSettingsPanel extends ConsumerWidget {
                   title: const Text('Enable watermark', style: TextStyle(fontSize: 12)),
                   dense: true,
                   contentPadding: EdgeInsets.zero,
-                  activeColor: const Color(0xFF6366F1),
+                  activeColor: Color(0xFF6366F1),
                 ),
                 if (settings.watermarkEnabled) ...[
                   const SizedBox(height: 8),
@@ -2126,10 +2125,10 @@ class _BatchSettingsPanel extends ConsumerWidget {
         Text(label, style: TextStyle(fontSize: 11, color: Colors.grey.shade400)),
         const SizedBox(height: 4),
         DropdownButtonFormField<String>(
-          value: options.contains(value) ? value : options.first,
+          initialValue: options.contains(value) ? value : options.first,
           isDense: true,
           style: const TextStyle(fontSize: 12, color: Colors.white),
-          dropdownColor: const Color(0xFF1E293B),
+          dropdownColor: Color(0xFF1E293B),
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.grey.shade900,
@@ -2162,7 +2161,7 @@ class _BatchSettingsPanel extends ConsumerWidget {
           min: min,
           max: max,
           onChanged: onChanged,
-          activeColor: const Color(0xFF6366F1),
+          activeColor: Color(0xFF6366F1),
           inactiveColor: Colors.grey.shade700,
         ),
       ],
@@ -2206,7 +2205,7 @@ class _SettingsSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B),
+        color: Color(0xFF1E293B),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.grey.shade800),
       ),
@@ -2241,7 +2240,7 @@ class _JobHistoryView extends ConsumerWidget {
     final history = ref.watch(batchHistoryProvider);
 
     return Container(
-      color: const Color(0xFF111827),
+      color: Color(0xFF111827),
       child: Column(
         children: [
           // Header
@@ -2265,7 +2264,7 @@ class _JobHistoryView extends ConsumerWidget {
           // Table Header
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            color: const Color(0xFF1E293B),
+            color: Color(0xFF1E293B),
             child: Row(
               children: [
                 Expanded(flex: 3, child: Text('Name', style: _headerStyle())),
@@ -2371,15 +2370,15 @@ class _JobHistoryView extends ConsumerWidget {
     String label;
     switch (status) {
       case BatchRunStatus.completed:
-        color = const Color(0xFF10B981);
+        color = Color(0xFF10B981);
         label = 'Done';
         break;
       case BatchRunStatus.running:
-        color = const Color(0xFF6366F1);
+        color = Color(0xFF6366F1);
         label = 'Running';
         break;
       case BatchRunStatus.paused:
-        color = const Color(0xFFF59E0B);
+        color = Color(0xFFF59E0B);
         label = 'Paused';
         break;
       case BatchRunStatus.cancelled:
@@ -2395,9 +2394,9 @@ class _JobHistoryView extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.15),
+        color: color.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Text(
         label,

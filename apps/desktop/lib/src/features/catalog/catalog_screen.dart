@@ -232,10 +232,10 @@ class CatalogScreen extends ConsumerWidget {
   Widget _buildFolderItem(BuildContext context, WidgetRef ref, CatalogFolder folder, CatalogState state) {
     final isSelected = state.selectedFolder?.id == folder.id;
     return ListTile(
-      leading: Icon(folder.icon, color: isSelected ? const Color(0xFF6366F1) : Colors.grey),
+      leading: Icon(folder.icon, color: isSelected ? Color(0xFF6366F1) : Colors.grey),
       title: Text(folder.name, style: TextStyle(
         fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-        color: isSelected ? const Color(0xFF6366F1) : null,
+        color: isSelected ? Color(0xFF6366F1) : null,
       )),
       trailing: Text('${folder.imageCount}', style: TextStyle(color: Colors.grey.shade500, fontSize: 12)),
       selected: isSelected,
@@ -246,7 +246,7 @@ class CatalogScreen extends ConsumerWidget {
   Widget _buildSelectionBar(BuildContext context, WidgetRef ref, CatalogState state) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      color: const Color(0xFF6366F1).withOpacity(0.1),
+      color: Color(0xFF6366F1).withValues(alpha: 0.1),
       child: Row(
         children: [
           Text('${state.selectedImageIds.length} selected'),
@@ -290,7 +290,7 @@ class CatalogScreen extends ConsumerWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: isSelected ? const Color(0xFF6366F1) : Colors.transparent,
+            color: isSelected ? Color(0xFF6366F1) : Colors.transparent,
             width: 2,
           ),
           color: Colors.grey.shade900,
@@ -306,7 +306,7 @@ class CatalogScreen extends ConsumerWidget {
               left: 4,
               child: Icon(
                 isSelected ? Icons.check_circle : Icons.circle_outlined,
-                color: isSelected ? const Color(0xFF6366F1) : Colors.white54,
+                color: isSelected ? Color(0xFF6366F1) : Colors.white54,
                 size: 20,
               ),
             ),

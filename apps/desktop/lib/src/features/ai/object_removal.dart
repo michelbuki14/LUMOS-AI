@@ -161,8 +161,6 @@ class ObjectRemovalNotifier extends StateNotifier<ObjectRemovalState> {
     // Process each detected object
     for (var i = 0; i < state.detections.length; i++) {
       await Future.delayed(const Duration(milliseconds: 200));
-      // Use detection dimensions for progress
-      final det = state.detections[i];
       state = state.copyWith(
         processingProgress: 0.1 + (i + 1) / state.detections.length * 0.8,
       );

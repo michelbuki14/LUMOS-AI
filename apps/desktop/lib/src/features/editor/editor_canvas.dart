@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'dart:ui' show StrokeStyle;
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -100,7 +99,7 @@ class _EditorCanvasState extends ConsumerState<EditorCanvas> {
     final imageFile = ref.watch(imageFileProvider);
 
     return Container(
-      color: const Color(0xFF1A1A1A),
+      color: Color(0xFF1A1A1A),
       child: Stack(
         children: [
           // Main image canvas
@@ -186,7 +185,7 @@ class _EditorCanvasState extends ConsumerState<EditorCanvas> {
                 icon: const Icon(Icons.folder_open),
                 label: const Text('Open Image'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF6366F1),
+                  backgroundColor: Color(0xFF6366F1),
                   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 ),
               ),
@@ -272,7 +271,7 @@ class _EditorCanvasState extends ConsumerState<EditorCanvas> {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Colors.black.withOpacity(0.7),
+            Colors.black.withValues(alpha: 0.7),
             Colors.transparent,
           ],
         ),
@@ -310,7 +309,7 @@ class _EditorCanvasState extends ConsumerState<EditorCanvas> {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black.withValues(alpha: 0.5),
             ),
             child: Text(
               '${(editorState.zoom * 100).toStringAsFixed(0)}%',
@@ -340,10 +339,10 @@ class _EditorCanvasState extends ConsumerState<EditorCanvas> {
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: isActive ? const Color(0xFF6366F1).withOpacity(0.3) : Colors.transparent,
-              border: isActive ? Border.all(color: const Color(0xFF6366F1)) : null,
+              color: isActive ? Color(0xFF6366F1).withValues(alpha: 0.3) : Colors.transparent,
+              border: isActive ? Border.all(color: Color(0xFF6366F1)) : null,
             ),
-            child: Icon(icon, size: 20, color: isActive ? const Color(0xFF6366F1) : Colors.grey.shade400),
+            child: Icon(icon, size: 20, color: isActive ? Color(0xFF6366F1) : Colors.grey.shade400),
           ),
         ),
       ),
@@ -357,7 +356,7 @@ class _EditorCanvasState extends ConsumerState<EditorCanvas> {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: Colors.black.withOpacity(0.7),
+        color: Colors.black.withValues(alpha: 0.7),
         border: Border.all(color: Colors.grey.shade800),
       ),
       child: Column(
@@ -381,7 +380,7 @@ class _EditorCanvasState extends ConsumerState<EditorCanvas> {
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        color: Colors.black.withOpacity(0.7),
+        color: Colors.black.withValues(alpha: 0.7),
         border: Border.all(color: Colors.grey.shade800),
       ),
       child: Row(
@@ -514,7 +513,7 @@ class _ImportDialogState extends ConsumerState<ImportDialog> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: Colors.grey.shade700, style: BorderStyle.solid),
-                color: Colors.grey.shade900.withOpacity(0.5),
+                color: Colors.grey.shade900.withValues(alpha: 0.5),
               ),
               child: Center(
                 child: Column(
@@ -560,7 +559,7 @@ class _ImportDialogState extends ConsumerState<ImportDialog> {
                 children: _tags.map((tag) => Chip(
                   label: Text(tag),
                   onDeleted: () => setState(() => _tags.remove(tag)),
-                  backgroundColor: const Color(0xFF6366F1).withOpacity(0.2),
+                  backgroundColor: Color(0xFF6366F1).withValues(alpha: 0.2),
                 )).toList(),
               ),
             ],

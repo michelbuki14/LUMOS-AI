@@ -1,4 +1,3 @@
-import 'dart:ui' show StrokeStyle;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -53,7 +52,6 @@ class DodgeBurnPanel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    WidgetRef? ref2;
     final state = ref.watch(dodgeBurnProvider);
     final notifier = ref.read(dodgeBurnProvider.notifier);
 
@@ -90,7 +88,7 @@ class DodgeBurnPanel extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Exposure', style: TextStyle(color: const Color(0xFFB0B0B0), fontSize: 12)),
-                    Text('${state.exposure.toStringAsFixed(2)}', style: const TextStyle(color: Color(0xFF7C3AED), fontSize: 12)),
+                    Text(state.exposure.toStringAsFixed(2), style: const TextStyle(color: Color(0xFF7C3AED), fontSize: 12)),
                   ],
                 ),
                 Slider(
@@ -134,7 +132,7 @@ class DodgeBurnPanel extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Flow', style: TextStyle(color: const Color(0xFFB0B0B0), fontSize: 12)),
-                    Text('${state.flow.toStringAsFixed(2)}', style: const TextStyle(color: Color(0xFF7C3AED), fontSize: 12)),
+                    Text(state.flow.toStringAsFixed(2), style: const TextStyle(color: Color(0xFF7C3AED), fontSize: 12)),
                   ],
                 ),
                 Slider(

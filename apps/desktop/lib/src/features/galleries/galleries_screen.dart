@@ -192,10 +192,10 @@ List<Gallery> _generateSampleGalleries() {
       printEnabled: index % 2 == 0,
       enabledPrintProducts: ['Canvas', 'Metal Print', 'Fine Art'],
       themeColor: [
-        const Color(0xFF6366F1),
-        const Color(0xFF8B5CF6),
-        const Color(0xFFEC4899),
-        const Color(0xFF10B981),
+        Color(0xFF6366F1),
+        Color(0xFF8B5CF6),
+        Color(0xFFEC4899),
+        Color(0xFF10B981),
       ][index % 4],
       emailTemplate: 'Dear client,\n\nYour gallery is ready for viewing. Click the link below to access your photos...',
       shareLink: 'https://gallery.lumos.ai/g/${1000 + index}',
@@ -386,7 +386,7 @@ class GalleriesNotifier extends StateNotifier<AsyncValue<List<Gallery>>> {
         'password': updated.password,
         'download_setting': updated.downloadSetting.name,
         'print_enabled': updated.printEnabled,
-        'theme_color': updated.themeColor.value,
+        'theme_color': updated.themeColor.toARGB32(),
         'email_template': updated.emailTemplate,
       });
     } catch (_) {}
@@ -667,8 +667,8 @@ class _GalleriesScreenState extends ConsumerState<GalleriesScreen> {
           orElse: () => galleries.first,
         );
 
-        // Load analytics if not loaded
-        final analytics = ref.watch(galleryAnalyticsProvider);
+        // Analytics (available for detail view)
+        ref.watch(galleryAnalyticsProvider);
 
         return Row(
           children: [
@@ -883,7 +883,7 @@ class _GalleriesScreenState extends ConsumerState<GalleriesScreen> {
                     width: isClientSelected ? 3 : (isSelected ? 2 : 1),
                   ),
                   boxShadow: isClientSelected
-                      ? [BoxShadow(color: Colors.greenAccent.withOpacity(0.3), blurRadius: 8)]
+                      ? [BoxShadow(color: Colors.greenAccent.withValues(alpha: 0.3), blurRadius: 8)]
                       : null,
                 ),
                 child: ClipRRect(
@@ -986,7 +986,7 @@ class _GalleriesScreenState extends ConsumerState<GalleriesScreen> {
 
   Widget _buildProofingView(BuildContext context, Gallery gallery) {
     return Container(
-      color: const Color(0xFF1A1A2E),
+      color: Color(0xFF1A1A2E),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -1015,9 +1015,9 @@ class _GalleriesScreenState extends ConsumerState<GalleriesScreen> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: Colors.greenAccent.withOpacity(0.1),
+                      color: Colors.greenAccent.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.greenAccent.withOpacity(0.3)),
+                      border: Border.all(color: Colors.greenAccent.withValues(alpha: 0.3)),
                     ),
                     child: Text(
                       '${gallery.selectedCount} client selections',
@@ -1216,7 +1216,7 @@ class _GalleriesScreenState extends ConsumerState<GalleriesScreen> {
         _buildSettingLabel(context, 'Download Setting'),
         const SizedBox(height: 4),
         DropdownButtonFormField<DownloadSetting>(
-          value: gallery.downloadSetting,
+          initialValue: gallery.downloadSetting,
           isExpanded: true,
           decoration: _inputDecoration(context),
           items: DownloadSetting.values.map((s) => DropdownMenuItem(
@@ -1279,14 +1279,14 @@ class _GalleriesScreenState extends ConsumerState<GalleriesScreen> {
         Wrap(
           spacing: 8,
           children: [
-            const Color(0xFF6366F1),
-            const Color(0xFF8B5CF6),
-            const Color(0xFFEC4899),
-            const Color(0xFF10B981),
-            const Color(0xFFF59E0B),
-            const Color(0xFFEF4444),
-            const Color(0xFF3B82F6),
-            const Color(0xFF6B7280),
+            Color(0xFF6366F1),
+            Color(0xFF8B5CF6),
+            Color(0xFFEC4899),
+            Color(0xFF10B981),
+            Color(0xFFF59E0B),
+            Color(0xFFEF4444),
+            Color(0xFF3B82F6),
+            Color(0xFF6B7280),
           ].map((color) => GestureDetector(
             onTap: isEditing ? () {
               ref.read(galleriesProvider.notifier).updateGallery(
@@ -1492,8 +1492,8 @@ class _GalleryCard extends ConsumerWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    gallery.themeColor.withOpacity(0.3),
-                    gallery.themeColor.withOpacity(0.1),
+                    gallery.themeColor.withValues(alpha: 0.3),
+                    gallery.themeColor.withValues(alpha: 0.1),
                   ],
                 ),
               ),
@@ -1559,7 +1559,7 @@ class _GalleryCard extends ConsumerWidget {
                             child: Container(
                               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                               decoration: BoxDecoration(
-                                color: Colors.greenAccent.withOpacity(0.9),
+                                color: Colors.greenAccent.withValues(alpha: 0.9),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(
@@ -1675,9 +1675,9 @@ class _StatusBadge extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: compact ? 6 : 8, vertical: compact ? 2 : 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.15),
+        color: color.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(compact ? 8 : 12),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -1910,7 +1910,7 @@ class _AnalyticsDialog extends ConsumerWidget {
                                       child: Container(
                                         height: height + 4,
                                         decoration: BoxDecoration(
-                                          color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
+                                          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.7),
                                           borderRadius: const BorderRadius.vertical(top: Radius.circular(2)),
                                         ),
                                       ),
@@ -1951,7 +1951,7 @@ class _AnalyticsDialog extends ConsumerWidget {
                           child: ListTile(
                             leading: CircleAvatar(
                               radius: 16,
-                              backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                              backgroundColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
                               child: Text(
                                 comment.author[0].toUpperCase(),
                                 style: TextStyle(
@@ -1995,9 +1995,9 @@ class _AnalyticsDialog extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: color.withOpacity(0.2)),
+          border: Border.all(color: color.withValues(alpha: 0.2)),
         ),
         child: Column(
           children: [
