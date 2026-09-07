@@ -2,6 +2,6 @@
 # LUMOS AI — API Routers Package
 # =============================================================================
 
-from . import auth, assets, projects, galleries, ai, batch, export, search
+from . import ai, assets, auth, batch, export, galleries, projects, search
 
-__all__ = ["auth", "assets", "projects", "galleries", "ai", "batch", "export", "search"]
+__all__ = ["ai", "assets", "auth", "batch", "export", "galleries", "projects", "search"]

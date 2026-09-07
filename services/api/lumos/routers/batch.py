@@ -2,20 +2,21 @@
 # LUMOS AI — Batch Router
 # =============================================================================
 
+from typing import Any
+
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
-from typing import List, Optional, Dict, Any
 
-from lumos.routers.auth import get_current_user, UserInDB
+from lumos.routers.auth import UserInDB, get_current_user
 
 router = APIRouter()
 
 
 class BatchRequest(BaseModel):
     name: str
-    asset_ids: List[str]
-    operations: List[Dict[str, Any]]
-    export_settings: Optional[Dict[str, Any]] = None
+    asset_ids: list[str]
+    operations: list[dict[str, Any]]
+    export_settings: dict[str, Any] | None = None
 
 
 class BatchStatus(BaseModel):

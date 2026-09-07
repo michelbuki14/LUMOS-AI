@@ -2,20 +2,20 @@
 # LUMOS AI — Galleries Router
 # =============================================================================
 
-from fastapi import APIRouter, Depends
-from pydantic import BaseModel
-from typing import List, Optional
 from datetime import datetime
 
-from lumos.routers.auth import get_current_user, UserInDB
+from fastapi import APIRouter, Depends
+from pydantic import BaseModel
+
+from lumos.routers.auth import UserInDB, get_current_user
 
 router = APIRouter()
 
 
 class GalleryCreate(BaseModel):
     name: str
-    description: Optional[str] = None
-    asset_ids: List[str] = []
+    description: str | None = None
+    asset_ids: list[str] = []
 
 
 class GalleryResponse(BaseModel):

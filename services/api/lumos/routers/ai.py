@@ -2,47 +2,48 @@
 # LUMOS AI — AI Router
 # =============================================================================
 
-from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
-from pydantic import BaseModel
-from typing import List, Optional, Dict, Any
+from typing import Any
 
-from lumos.routers.auth import get_current_user, UserInDB
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
+from pydantic import BaseModel
+
+from lumos.routers.auth import UserInDB, get_current_user
 
 router = APIRouter()
 
 
 class AiCullingRequest(BaseModel):
-    asset_ids: List[str]
-    model_version: Optional[str] = "lumos-cull-v1"
-    threshold: Optional[float] = 0.5
+    asset_ids: list[str]
+    model_version: str | None = "lumos-cull-v1"
+    threshold: float | None = 0.5
 
 
 class AiMaskRequest(BaseModel):
     asset_id: str
     mask_type: str  # subject, sky, skin, face, object, semantic
-    prompt: Optional[str] = None
+    prompt: str | None = None
 
 
 class AiPortraitRequest(BaseModel):
     asset_id: str
-    skin_smoothing: Optional[float] = 0.0
-    eye_enhance: Optional[float] = 0.0
-    teeth_whiten: Optional[float] = 0.0
-    face_slim: Optional[float] = 0.0
-    texture_preservation: Optional[float] = 0.8
+    skin_smoothing: float | None = 0.0
+    eye_enhance: float | None = 0.0
+    teeth_whiten: float | None = 0.0
+    face_slim: float | None = 0.0
+    texture_preservation: float | None = 0.8
 
 
 class AiBackgroundRequest(BaseModel):
     asset_id: str
     mode: str  # remove, replace, generate, transparent
-    prompt: Optional[str] = None
-    reference_image_id: Optional[str] = None
+    prompt: str | None = None
+    reference_image_id: str | None = None
 
 
 class AiRemovalRequest(BaseModel):
     asset_id: str
     mask_data: str  # base64 encoded mask
-    fill_method: Optional[str] = "ai_generate"
+    fill_method: str | None = "ai_generate"
 
 
 class AiOperationResponse(BaseModel):
@@ -58,7 +59,7 @@ class AiCullingResult(BaseModel):
     exposure_score: float
     composition_score: float
     technical_score: float
-    flags: List[str]
+    flags: list[str]
 
 
 class DodgeBurnRequest(BaseModel):
@@ -74,7 +75,7 @@ class DodgeBurnRequest(BaseModel):
     tone_range_shadows: bool = True
     tone_range_midtones: bool = True
     tone_range_highlights: bool = True
-    strokes: List[Dict[str, Any]] = []
+    strokes: list[dict[str, Any]] = []
 
 
 @router.get("/health")
@@ -83,7 +84,7 @@ async def ai_health():
     return {"status": "healthy", "models_loaded": 12}
 
 
-@router.post("/cull", response_model=List[AiCullingResult])
+@router.post("/cull", response_model=list[AiCullingResult])
 async def ai_culling(
     request: AiCullingRequest,
     background_tasks: BackgroundTasks,

@@ -2,12 +2,12 @@
 # LUMOS AI — Assets Router
 # =============================================================================
 
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Query
-from pydantic import BaseModel
-from typing import List
 from datetime import datetime
 
-from lumos.routers.auth import get_current_user, UserInDB
+from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
+from pydantic import BaseModel
+
+from lumos.routers.auth import UserInDB, get_current_user
 
 router = APIRouter()
 
@@ -26,7 +26,7 @@ class AssetResponse(BaseModel):
 
 
 class AssetListResponse(BaseModel):
-    items: List[AssetResponse]
+    items: list[AssetResponse]
     total: int
     page: int
     limit: int
