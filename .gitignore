@@ -80,3 +80,9 @@ tmp/
 temp/
 *.tmp
 *.swp
+
+# Dart/Flutter
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
