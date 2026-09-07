@@ -1,0 +1,140 @@
+name: lumos-ai
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: lumos-postgres
+    environment:
+      POSTGRES_DB: lumos
+      POSTGRES_USER: lumos
+      POSTGRES_PASSWORD: lumos_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infra/docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lumos"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - lumos-network
+
+  # Redis Cache + Message Queue
+  redis:
+    image: redis:7-alpine
+    container_name: lumos-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - lumos-network
+
+  # MinIO (S3-compatible storage)
+  minio:
+    image: minio/minio:latest
+    container_name: lumos-minio
+    environment:
+      MINIO_ROOT_USER: lumos
+      MINIO_ROOT_PASSWORD: lumos_dev_password
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - lumos-network
+
+  # FastAPI Backend
+  api:
+    build:
+      context: ./services/api
+      dockerfile: ../../infra/docker/Dockerfile.api
+    container_name: lumos-api
+    environment:
+      DATABASE_URL: postgresql+asyncpg://lumos:lumos_dev_password@postgres:5432/lumos
+      REDIS_URL: redis://redis:6379/0
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ACCESS_KEY: lumos
+      MINIO_SECRET_KEY: lumos_dev_password
+      JWT_SECRET: lumos_jwt_secret_dev_key_change_in_production
+      AI_SERVICE_URL: http://ai:8001
+      RENDER_SERVICE_URL: http://render:8002
+      DEBUG: "true"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./services/api:/app
+      - api_storage:/app/storage
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_started
+    networks:
+      - lumos-network
+
+  # AI Inference Service
+  ai:
+    build:
+      context: ./services/ai
+      dockerfile: ../../infra/docker/Dockerfile.ai
+    container_name: lumos-ai-service
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      MODEL_CACHE_DIR: /app/models
+      CUDA_VISIBLE_DEVICES: all
+      TORCH_CUDA_ARCH_LIST: "7.0;7.5;8.0;8.6;9.0"
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./services/ai:/app
+      - ai_models:/app/models
+    # deploy removed for CPU dev — enable in prod
+    depends_on:
+      - redis
+    networks:
+      - lumos-network
+
+  # Rust Rendering Engine
+  render:
+    build:
+      context: ./services/render
+      dockerfile: ../../infra/docker/Dockerfile.render
+    container_name: lumos-render
+    environment:
+      RUST_LOG: info
+      RUST_BACKTRACE: 1
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./services/render:/app
+    networks:
+      - lumos-network
+
+volumes:
+  postgres_data:
+  redis_data:
+  minio_data:
+  api_storage:
+  ai_models:
+
+networks:
+  lumos-network:
+    driver: bridge

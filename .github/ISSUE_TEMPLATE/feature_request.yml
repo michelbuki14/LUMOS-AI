@@ -1,0 +1,15 @@
+name: Feature Request
+description: Suggest an idea
+labels: [enhancement]
+body:
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Architecture, API, and docs impact
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered

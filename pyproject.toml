@@ -1,0 +1,67 @@
+# =============================================================================
+# LUMOS AI — Workspace Package Configuration
+# =============================================================================
+
+[tool.poetry]
+name = "lumos-ai"
+version = "1.0.0"
+description = "LUMOS AI — AI Operating System for Professional Photography"
+authors = ["LUMOS AI <team@lumos.ai>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.0"
+uvicorn = {extras = ["standard"], version = "^0.32.0"}
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.36"}
+asyncpg = "^0.30.0"
+alembic = "^1.13.3"
+redis = {extras = ["hiredis"], version = "^5.2.0"}
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-multipart = "^0.0.17"
+pydantic = {extras = ["email"], version = "^2.9.0"}
+pydantic-settings = "^2.6.0"
+httpx = "^0.27.0"
+tenacity = "^9.0.0"
+structlog = "^24.4.0"
+prometheus-client = "^0.21.0"
+python-magic = "^0.4.27"
+pillow = "^11.0.0"
+numpy = "^2.1.0"
+orjson = "^3.10.0"
+uvloop = "^0.21.0"
+boto3 = "^1.35.0"
+aioboto3 = "^13.0.0"
+websockets = "^13.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.0"
+pytest-asyncio = "^0.24.0"
+pytest-cov = "^6.0.0"
+black = "^24.10.0"
+ruff = "^0.8.0"
+mypy = "^1.13.0"
+pre-commit = "^4.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

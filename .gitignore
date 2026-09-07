@@ -1,0 +1,82 @@
+# =============================================================================
+# LUMOS AI — .gitignore
+# =============================================================================
+
+# Dependencies
+node_modules/
+.pnpm-store/
+vendor/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Build outputs
+build/
+dist/
+target/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+pnpm-debug.log*
+
+# Testing
+coverage/
+.pytest_cache/
+htmlcov/
+.tox/
+
+# Rust
+Cargo.lock
+target/
+
+# Flutter
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+coverage/
+
+# Database
+*.sqlite
+*.db
+
+# Media storage
+storage/
+uploads/
+exports/
+thumbnails/
+
+# Docker
+.docker/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.swp

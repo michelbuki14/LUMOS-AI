@@ -1,0 +1,10 @@
+{
+  "name": "@lumos/ai",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "uvicorn lumos.ai.app:app --reload --host 0.0.0.0 --port 8001",
+    "start": "uvicorn lumos.ai.app:app --host 0.0.0.0 --port 8001",
+    "test": "pytest tests/ -v"
+  }
+}

@@ -1,0 +1,5 @@
+# LUMOS AI — pnpm workspace configuration
+packages:
+  - 'apps/*'
+  - 'services/*'
+  - 'packages/*'

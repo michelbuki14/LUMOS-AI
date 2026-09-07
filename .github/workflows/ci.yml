@@ -1,0 +1,202 @@
+# =============================================================================
+# LUMOS AI — GitHub Actions CI/CD
+# =============================================================================
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  PYTHON_VERSION: "3.12"
+  RUST_VERSION: "1.82"
+  FLUTTER_VERSION: "3.24"
+
+jobs:
+  # ===========================================================================
+  # Lint & Format Check
+  # ===========================================================================
+  lint:
+    name: Lint & Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: ${{ env.RUST_VERSION }}
+          components: rustfmt, clippy
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Lint Python (API)
+        run: |
+          cd services/api
+          pip install ruff
+          ruff check lumos/
+
+      - name: Lint Python (AI)
+        run: |
+          cd services/ai
+          pip install ruff
+          ruff check lumos/
+
+      - name: Lint Rust
+        run: |
+          cd services/render
+          cargo fmt -- --check
+          cargo clippy -- -D warnings
+
+      - name: Lint Flutter
+        run: |
+          cd apps/desktop
+          flutter analyze
+
+  # ===========================================================================
+  # Unit Tests
+  # ===========================================================================
+  test-api:
+    name: Test API
+    runs-on: ubuntu-latest
+    needs: lint
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: lumos_test
+          POSTGRES_USER: lumos
+          POSTGRES_PASSWORD: lumos_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          cd services/api
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio pytest-cov
+
+      - name: Run tests
+        env:
+          DATABASE_URL: postgresql+asyncpg://lumos:lumos_test@localhost:5432/lumos_test
+          REDIS_URL: redis://localhost:6379/0
+        run: |
+          cd services/api
+          pytest tests/ -v --cov=lumos --cov-report=xml
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          file: services/api/coverage.xml
+          flags: api
+
+  test-ai:
+    name: Test AI Service
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          cd services/ai
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio
+
+      - name: Run tests
+        run: |
+          cd services/ai
+          pytest tests/ -v
+
+  test-render:
+    name: Test Render Engine
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: ${{ env.RUST_VERSION }}
+
+      - name: Run tests
+        run: |
+          cd services/render
+          cargo test --release
+
+  test-desktop:
+    name: Test Flutter Desktop
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          cd apps/desktop
+          flutter pub get
+
+      - name: Run tests
+        run: |
+          cd apps/desktop
+          flutter test
+
+  # ===========================================================================
+  # Build
+  # ===========================================================================
+  build:
+    name: Build All
+    runs-on: ubuntu-latest
+    needs: [test-api, test-ai, test-render, test-desktop]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker images
+        run: docker compose build
+
+      - name: Push to registry (main only)
+        if: github.ref == 'refs/heads/main'
+        run: echo "Push to container registry"

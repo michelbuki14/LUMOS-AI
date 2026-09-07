@@ -1,0 +1,15 @@
+{
+  "name": "@lumos/desktop",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "flutter run -d windows",
+    "start": "flutter run -d windows",
+    "build": "flutter build windows",
+    "build:macos": "flutter build macos",
+    "build:linux": "flutter build linux",
+    "test": "flutter test",
+    "lint": "flutter analyze",
+    "format": "flutter format ."
+  }
+}
