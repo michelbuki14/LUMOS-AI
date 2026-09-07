@@ -37,6 +37,7 @@ class StorageService {
         'is_logged_in': isLoggedIn,
       };
 
+  @override
   String toString() => jsonEncode(toJson());
 }
 

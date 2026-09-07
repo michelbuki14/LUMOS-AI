@@ -1156,7 +1156,7 @@ class _ImageQueuePanel extends ConsumerWidget {
                 : ReorderableListView.builder(
                     padding: const EdgeInsets.all(8),
                     itemCount: queue.length,
-                    onReorder: (oldIndex, newIndex) {
+                    onReorderItem: (oldIndex, newIndex) {
                       ref.read(batchQueueProvider.notifier).reorder(oldIndex, newIndex);
                     },
                     itemBuilder: (context, index) {
@@ -1372,7 +1372,7 @@ class _TemplateEditorPanel extends ConsumerWidget {
                 : ReorderableListView.builder(
                     padding: const EdgeInsets.all(8),
                     itemCount: operations.length,
-                    onReorder: (oldIndex, newIndex) {
+                    onReorderItem: (oldIndex, newIndex) {
                       ref.read(batchOperationsProvider.notifier).reorder(oldIndex, newIndex);
                     },
                     itemBuilder: (context, index) {
@@ -1438,6 +1438,7 @@ class _OperationTileState extends ConsumerState<_OperationTile> {
                 Switch(
                   value: widget.operation.enabled,
                   onChanged: (_) => ref.read(batchOperationsProvider.notifier).toggleOperation(widget.operation.id),
+                      // ignore: deprecated_member_use
                   activeColor: Color(0xFF6366F1),
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
@@ -1735,7 +1736,9 @@ class _OperationTileState extends ConsumerState<_OperationTile> {
               min: min,
               max: max,
               onChanged: (v) {},
+                      // ignore: deprecated_member_use
               activeColor: Color(0xFF6366F1),
+                      // ignore: deprecated_member_use
               inactiveColor: Colors.grey.shade700,
             ),
           ),
@@ -1920,6 +1923,7 @@ class _BatchSettingsPanel extends ConsumerWidget {
                   title: const Text('Enable resize', style: TextStyle(fontSize: 12)),
                   dense: true,
                   contentPadding: EdgeInsets.zero,
+                      // ignore: deprecated_member_use
                   activeColor: Color(0xFF6366F1),
                 ),
                 if (settings.resizeEnabled) ...[
@@ -1955,6 +1959,7 @@ class _BatchSettingsPanel extends ConsumerWidget {
                     title: const Text('Maintain aspect ratio', style: TextStyle(fontSize: 11)),
                     dense: true,
                     contentPadding: EdgeInsets.zero,
+                      // ignore: deprecated_member_use
                     activeColor: Color(0xFF6366F1),
                   ),
                 ],
@@ -2058,6 +2063,7 @@ class _BatchSettingsPanel extends ConsumerWidget {
                   title: const Text('Enable watermark', style: TextStyle(fontSize: 12)),
                   dense: true,
                   contentPadding: EdgeInsets.zero,
+                      // ignore: deprecated_member_use
                   activeColor: Color(0xFF6366F1),
                 ),
                 if (settings.watermarkEnabled) ...[
@@ -2161,7 +2167,9 @@ class _BatchSettingsPanel extends ConsumerWidget {
           min: min,
           max: max,
           onChanged: onChanged,
+                      // ignore: deprecated_member_use
           activeColor: Color(0xFF6366F1),
+                      // ignore: deprecated_member_use
           inactiveColor: Colors.grey.shade700,
         ),
       ],

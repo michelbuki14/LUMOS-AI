@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'dart:math';
 
 /// Object detection result
-/// Uses List<int> instead of TypedList for Dart compatibility
+/// Uses List&lt;int&gt; instead of TypedList for Dart compatibility
 class ObjectDetectionResult {
   final String label; // e.g. 'person', 'dust', 'wire'
   final double confidence;
