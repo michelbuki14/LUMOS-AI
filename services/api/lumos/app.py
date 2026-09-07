@@ -9,7 +9,7 @@ import structlog
 
 from lumos.config import settings
 from lumos.database import init_db, close_db
-from lumos.routers import auth, assets, projects, galleries, ai, batch, export, search
+from lumos.routers import auth, assets, projects, galleries, ai, batch, export, search, ollama
 from lumos.middleware import LoggingMiddleware, RateLimitMiddleware
 
 logger = structlog.get_logger()
@@ -59,6 +59,7 @@ def create_app() -> FastAPI:
     app.include_router(batch.router, prefix="/api/v1/batch", tags=["Batch"])
     app.include_router(export.router, prefix="/api/v1/export", tags=["Export"])
     app.include_router(search.router, prefix="/api/v1/search", tags=["Search"])
+    app.include_router(ollama.router, prefix="/api/v1/ollama", tags=["Ollama"])
 
     @app.get("/health")
     async def health_check():
