@@ -7,7 +7,6 @@ import sys
 import subprocess
 import time
 import signal
-import threading
 from pathlib import Path
 
 BASE_DIR = Path(__file__).parent
@@ -90,7 +89,7 @@ def main():
         for p in processes:
             try:
                 p.terminate()
-            except:
+            except Exception:
                 pass
         sys.exit(0)
 

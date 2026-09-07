@@ -2,13 +2,10 @@
 # LUMOS AI — FastAPI Backend Application
 # =============================================================================
 
-from fastapi import FastAPI, Request, Depends, HTTPException, status
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.middleware.trustedhost import TrustedHostMiddleware
-from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 import structlog
-import time
 
 from lumos.config import settings
 from lumos.database import init_db, close_db

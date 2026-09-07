@@ -3,7 +3,6 @@ LUMOS Engine — Color Management
 ICC, ACES, OpenColorIO, film emulation. CPU + GPU.
 """
 from dataclasses import dataclass
-from typing import Optional
 
 @dataclass
 class IccProfile:

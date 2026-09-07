@@ -4,11 +4,8 @@
 
 import pytest
 from httpx import AsyncClient, ASGITransport
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.orm import sessionmaker
 
 from lumos.app import create_app
-from lumos.config import settings
 
 # Test database
 TEST_DATABASE_URL = "sqlite+aiosqlite:///./test.db"

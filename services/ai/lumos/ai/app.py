@@ -2,7 +2,7 @@
 # LUMOS AI — AI Inference Service (with real models)
 # =============================================================================
 
-from fastapi import FastAPI, HTTPException, BackgroundTasks, UploadFile, File
+from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
@@ -12,7 +12,7 @@ from PIL import Image
 import io
 import time
 
-from lumos.ai.models import registry, CullingModel
+from lumos.ai.models import registry
 
 logger = structlog.get_logger()
 
@@ -117,7 +117,7 @@ async def predict(request: InferenceRequest):
 @app.post("/cull", response_model=List[CullingResult])
 async def cull_images(request: CullingRequest):
     """Run AI culling on images."""
-    start = time.time()
+    time.time()
     model = registry.get("lumos-cull-v1")
     
     if not model or not model.is_loaded:

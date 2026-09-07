@@ -4,7 +4,7 @@
 
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Query
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List
 from datetime import datetime
 
 from lumos.routers.auth import get_current_user, UserInDB

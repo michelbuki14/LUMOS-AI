@@ -2,9 +2,9 @@
 # LUMOS AI — Projects Router
 # =============================================================================
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Optional
 from datetime import datetime
 
 from lumos.routers.auth import get_current_user, UserInDB

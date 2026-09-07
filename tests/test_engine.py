@@ -8,7 +8,7 @@ def test_color_pipeline():
     assert abs(ev.ev() - 11) < 1
 
 def test_raw_decoder():
-    from engine.raw.decoder import RawDecoder, RawDecodeOptions
+    from engine.raw.decoder import RawDecoder
     d = RawDecoder()
     assert "DNG" in d.supported_formats()
     res = d.decode("test.dng")

@@ -13,9 +13,8 @@ except Exception:
 import numpy as np
 from PIL import Image
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 import structlog
-import json
 
 logger = structlog.get_logger()
 
@@ -102,7 +101,7 @@ class CullingModel(BaseModel):
             self.load()
         
         # Convert image to tensor
-        img_tensor = self._preprocess(image)
+        self._preprocess(image)
         
         # In production: run through ViT model
         # For now: compute heuristic scores
@@ -147,8 +146,8 @@ class CullingModel(BaseModel):
         
         # Composition score (rule of thirds)
         h, w = img_array.shape
-        thirds_y = [h // 3, 2 * h // 3]
-        thirds_x = [w // 3, 2 * w // 3]
+        [h // 3, 2 * h // 3]
+        [w // 3, 2 * w // 3]
         composition_score = 0.7  # Default, would use saliency model in production
         
         # Technical score (noise estimation)

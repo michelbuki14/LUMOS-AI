@@ -5,6 +5,7 @@ Handles multi-format export with watermarking and resize.
 
 from PIL import Image, ImageDraw, ImageFont
 from typing import Optional, Tuple
+from pathlib import Path
 import io
 import structlog
 

@@ -3,7 +3,7 @@ LUMOS AI — Model runtime abstraction
 ONNX Runtime, PyTorch, TensorFlow, OpenVINO, DirectML, Core ML, TensorRT — interchangeable.
 """
 from dataclasses import dataclass
-from typing import Optional, Dict, Any
+from typing import Dict, Any
 from enum import Enum
 
 class Runtime(str, Enum):
