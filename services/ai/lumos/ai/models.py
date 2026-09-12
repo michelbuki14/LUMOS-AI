@@ -4,17 +4,18 @@
 
 try:
     import torch
-    import torch.nn as nn
+    from torch import nn
     HAS_TORCH = True
 except Exception:
     torch = None
     nn = None
     HAS_TORCH = False
-import numpy as np
-from PIL import Image
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
+
+import numpy as np
 import structlog
+from PIL import Image
 
 logger = structlog.get_logger()
 
@@ -25,7 +26,7 @@ class ModelRegistry:
     def __init__(self, cache_dir: str = "./models"):
         self.cache_dir = Path(cache_dir)
         self.cache_dir.mkdir(parents=True, exist_ok=True)
-        self.models: Dict[str, 'BaseModel'] = {}
+        self.models: dict[str, BaseModel] = {}
         if HAS_TORCH:
             try:
                 self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -44,7 +45,7 @@ class ModelRegistry:
         """Get a registered model."""
         return self.models.get(model_id)
     
-    def list_models(self) -> List[Dict]:
+    def list_models(self) -> list[dict]:
         """List all registered models."""
         return [
             {
@@ -71,7 +72,7 @@ class BaseModel:
         """Load model weights."""
         raise NotImplementedError
     
-    def predict(self, image: Image.Image, **kwargs) -> Dict:
+    def predict(self, image: Image.Image, **kwargs) -> dict:
         """Run inference on an image."""
         raise NotImplementedError
     
@@ -95,7 +96,7 @@ class CullingModel(BaseModel):
         self.memory_mb = 2048
         logger.info("Culling model loaded")
     
-    def predict(self, image: Image.Image, **kwargs) -> Dict:
+    def predict(self, image: Image.Image, **kwargs) -> dict:
         """Score image quality across multiple dimensions."""
         if not self.is_loaded:
             self.load()
@@ -126,7 +127,7 @@ class CullingModel(BaseModel):
         tensor = torch.from_numpy(img_array).permute(2, 0, 1).unsqueeze(0)
         return tensor.to(self.device if hasattr(self, 'device') else 'cpu')
     
-    def _compute_scores(self, image: Image.Image) -> Dict:
+    def _compute_scores(self, image: Image.Image) -> dict:
         """Compute quality scores using image analysis."""
         img_array = np.array(image.convert('L')).astype(np.float32)
         
@@ -198,7 +199,7 @@ class FaceDetectionModel(BaseModel):
         self.is_loaded = True
         self.memory_mb = 512
     
-    def predict(self, image: Image.Image, **kwargs) -> Dict:
+    def predict(self, image: Image.Image, **kwargs) -> dict:
         """Detect faces and extract attributes."""
         # In production: use RetinaFace or similar
         return {
@@ -217,7 +218,7 @@ class PortraitSegmentationModel(BaseModel):
         self.is_loaded = True
         self.memory_mb = 1024
     
-    def predict(self, image: Image.Image, **kwargs) -> Dict:
+    def predict(self, image: Image.Image, **kwargs) -> dict:
         """Generate portrait segmentation mask."""
         # In production: use BiSeNet or similar
         return {
@@ -237,7 +238,7 @@ class SceneClassificationModel(BaseModel):
         self.is_loaded = True
         self.memory_mb = 256
     
-    def predict(self, image: Image.Image, **kwargs) -> Dict:
+    def predict(self, image: Image.Image, **kwargs) -> dict:
         """Classify scene type."""
         # In production: use trained ViT classifier
         return {
@@ -257,7 +258,7 @@ class SuperResolutionModel(BaseModel):
         self.is_loaded = True
         self.memory_mb = 4096
     
-    def predict(self, image: Image.Image, scale: int = 2, **kwargs) -> Dict:
+    def predict(self, image: Image.Image, scale: int = 2, **kwargs) -> dict:
         """Upscale image."""
         # In production: use Real-ESRGAN or similar
         w, h = image.size
@@ -278,7 +279,7 @@ class DenoiseModel(BaseModel):
         self.is_loaded = True
         self.memory_mb = 2048
     
-    def predict(self, image: Image.Image, strength: float = 0.5, **kwargs) -> Dict:
+    def predict(self, image: Image.Image, strength: float = 0.5, **kwargs) -> dict:
         """Denoise image."""
         # In production: use Restormer or similar
         return {

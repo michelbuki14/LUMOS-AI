@@ -2,17 +2,17 @@
 # LUMOS AI — AI Inference Service (with real models)
 # =============================================================================
 
-from fastapi import FastAPI, HTTPException, UploadFile, File
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import List, Optional, Dict, Any
-import structlog
-from contextlib import asynccontextmanager
-from PIL import Image
 import io
 import time
+from contextlib import asynccontextmanager
+from typing import Any
 
+import structlog
+from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from lumos.ai.models import registry
+from PIL import Image
+from pydantic import BaseModel, Field
 
 logger = structlog.get_logger()
 
@@ -54,18 +54,18 @@ class HealthResponse(BaseModel):
 
 class InferenceRequest(BaseModel):
     model_id: str
-    inputs: Dict[str, Any]
-    parameters: Optional[Dict[str, Any]] = {}
+    inputs: dict[str, Any]
+    parameters: dict[str, Any] | None = Field(default_factory=dict)
 
 
 class InferenceResponse(BaseModel):
     model_id: str
-    outputs: Dict[str, Any]
+    outputs: dict[str, Any]
     processing_time_ms: float
 
 
 class CullingRequest(BaseModel):
-    image_ids: List[str]
+    image_ids: list[str]
 
 
 class CullingResult(BaseModel):
@@ -75,7 +75,7 @@ class CullingResult(BaseModel):
     exposure_score: float
     composition_score: float
     technical_score: float
-    flags: List[str]
+    flags: list[str]
 
 
 @app.get("/health", response_model=HealthResponse)
@@ -114,7 +114,17 @@ async def predict(request: InferenceRequest):
     )
 
 
-@app.post("/cull", response_model=List[CullingResult])
+@app.post("/batch_predict")
+async def batch_predict(requests: list[InferenceRequest]):
+    """Run inference for multiple requests in one call."""
+    results = []
+    for request in requests:
+        result = await predict(request)
+        results.append(result.model_dump())
+    return {"results": results}
+
+
+@app.post("/cull", response_model=list[CullingResult])
 async def cull_images(request: CullingRequest):
     """Run AI culling on images."""
     time.time()

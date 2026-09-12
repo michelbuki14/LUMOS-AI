@@ -2,8 +2,8 @@
 # LUMOS AI — Configuration
 # =============================================================================
 
+
 from pydantic_settings import BaseSettings
-from typing import List
 
 
 class Settings(BaseSettings):
@@ -40,7 +40,7 @@ class Settings(BaseSettings):
     RENDER_SERVICE_URL: str = "http://localhost:8002"
     
     # CORS
-    CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:8080", "http://localhost:5173"]
+    CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://localhost:8080", "http://localhost:5173"]
     
     # Performance
     WORKERS: int = 4

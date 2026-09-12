@@ -2,24 +2,24 @@
 # LUMOS AI — Export Router
 # =============================================================================
 
+
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
-from typing import List, Optional
 
-from lumos.routers.auth import get_current_user, UserInDB
+from lumos.routers.auth import UserInDB, get_current_user
 
 router = APIRouter()
 
 
 class ExportRequest(BaseModel):
-    asset_ids: List[str]
+    asset_ids: list[str]
     format: str = "jpeg"
     quality: int = 90
-    width: Optional[int] = None
-    height: Optional[int] = None
+    width: int | None = None
+    height: int | None = None
     color_space: str = "srigb"
     watermark_enabled: bool = False
-    watermark_text: Optional[str] = None
+    watermark_text: str | None = None
 
 
 class ExportResponse(BaseModel):

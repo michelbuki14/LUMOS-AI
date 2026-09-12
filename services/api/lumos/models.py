@@ -3,11 +3,25 @@ LUMOS AI — Database Models
 SQLAlchemy ORM models for PostgreSQL.
 """
 
-from sqlalchemy import Column, String, Boolean, DateTime, Integer, BigInteger, Text, ForeignKey, JSON, ARRAY, Float, Index
+import enum
+import uuid
+
+from sqlalchemy import (
+    ARRAY,
+    JSON,
+    BigInteger,
+    Boolean,
+    Column,
+    DateTime,
+    Float,
+    ForeignKey,
+    Index,
+    Integer,
+    String,
+    Text,
+)
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-import uuid
-import enum
 
 from lumos.database import Base
 

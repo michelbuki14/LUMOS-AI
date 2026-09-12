@@ -2,15 +2,15 @@
 # LUMOS AI — Auth Router
 # =============================================================================
 
+import hashlib
+from datetime import datetime, timedelta
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from pydantic import BaseModel, EmailStr
-from datetime import datetime, timedelta
 from jose import JWTError, jwt
+from pydantic import BaseModel, EmailStr
 
 from lumos.config import settings
-
-import hashlib
 
 router = APIRouter()
 

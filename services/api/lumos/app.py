@@ -2,15 +2,16 @@
 # LUMOS AI — FastAPI Backend Application
 # =============================================================================
 
+from contextlib import asynccontextmanager
+
+import structlog
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from contextlib import asynccontextmanager
-import structlog
 
 from lumos.config import settings
-from lumos.database import init_db, close_db
-from lumos.routers import auth, assets, projects, galleries, ai, batch, export, search, ollama
+from lumos.database import close_db, init_db
 from lumos.middleware import LoggingMiddleware, RateLimitMiddleware
+from lumos.routers import ai, assets, auth, batch, export, galleries, ollama, projects, search
 
 logger = structlog.get_logger()
 

@@ -2,7 +2,7 @@
 # LUMOS AI — Database Connection & Session Management (SQLite-compatible)
 # =============================================================================
 
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
 from lumos.config import settings
@@ -35,7 +35,6 @@ AsyncSessionLocal = async_sessionmaker(
 
 class Base(DeclarativeBase):
     """Base class for all database models."""
-    pass
 
 
 async def get_db() -> AsyncSession:

@@ -2,32 +2,32 @@
 # LUMOS AI — Search Router
 # =============================================================================
 
+
 from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel
-from typing import List, Optional
 
-from lumos.routers.auth import get_current_user, UserInDB
+from lumos.routers.auth import UserInDB, get_current_user
 
 router = APIRouter()
 
 
 class SearchQuery(BaseModel):
     query: str
-    filters: Optional[dict] = None
+    filters: dict | None = None
     semantic: bool = True
 
 
 class SearchResult(BaseModel):
     asset_id: str
     filename: str
-    thumbnail_url: Optional[str] = None
+    thumbnail_url: str | None = None
     score: float
     metadata: dict = {}
 
 
 class SearchResponse(BaseModel):
     query: str
-    results: List[SearchResult]
+    results: list[SearchResult]
     total: int
 
 
@@ -60,7 +60,7 @@ async def semantic_search(
 
 @router.get("/faces")
 async def face_search(
-    person_id: Optional[str] = None,
+    person_id: str | None = None,
     current_user: UserInDB = Depends(get_current_user),
 ):
     """Search for images containing specific people."""

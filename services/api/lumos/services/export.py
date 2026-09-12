@@ -3,11 +3,11 @@ LUMOS AI — Export Service
 Handles multi-format export with watermarking and resize.
 """
 
-from PIL import Image, ImageDraw, ImageFont
-from typing import Optional, Tuple
-from pathlib import Path
 import io
+from pathlib import Path
+
 import structlog
+from PIL import Image, ImageDraw, ImageFont
 
 logger = structlog.get_logger__()
 
@@ -26,13 +26,13 @@ class ExportService:
         image: Image.Image,
         format: str = 'jpeg',
         quality: int = 90,
-        width: Optional[int] = None,
-        height: Optional[int] = None,
-        watermark_text: Optional[str] = None,
+        width: int | None = None,
+        height: int | None = None,
+        watermark_text: str | None = None,
         watermark_position: str = 'bottom-right',
         watermark_opacity: float = 0.5,
-        metadata: Optional[dict] = None,
-    ) -> Tuple[bytes, str]:
+        metadata: dict | None = None,
+    ) -> tuple[bytes, str]:
         """
         Export an image with the specified options.
         
@@ -86,8 +86,8 @@ class ExportService:
     def _resize(
         self,
         image: Image.Image,
-        width: Optional[int],
-        height: Optional[int],
+        width: int | None,
+        height: int | None,
     ) -> Image.Image:
         """Resize image maintaining aspect ratio."""
         if width is None and height is None:
@@ -127,7 +127,7 @@ class ExportService:
         # Use a default font (in production, load a TTF font)
         try:
             font = ImageFont.truetype("arial.ttf", int(image.size[1] * 0.03))
-        except (IOError, OSError):
+        except OSError:
             font = ImageFont.load_default()
         
         # Calculate text size and position

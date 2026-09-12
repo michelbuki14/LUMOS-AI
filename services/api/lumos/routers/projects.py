@@ -2,27 +2,27 @@
 # LUMOS AI — Projects Router
 # =============================================================================
 
-from fastapi import APIRouter, Depends
-from pydantic import BaseModel
-from typing import Optional
 from datetime import datetime
 
-from lumos.routers.auth import get_current_user, UserInDB
+from fastapi import APIRouter, Depends
+from pydantic import BaseModel
+
+from lumos.routers.auth import UserInDB, get_current_user
 
 router = APIRouter()
 
 
 class ProjectCreate(BaseModel):
     name: str
-    description: Optional[str] = None
-    project_type: Optional[str] = None
+    description: str | None = None
+    project_type: str | None = None
 
 
 class ProjectResponse(BaseModel):
     id: str
     name: str
-    description: Optional[str] = None
-    project_type: Optional[str] = None
+    description: str | None = None
+    project_type: str | None = None
     status: str = "draft"
     asset_count: int = 0
     created_at: datetime

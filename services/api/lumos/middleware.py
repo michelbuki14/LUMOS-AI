@@ -2,10 +2,11 @@
 # LUMOS AI — Middleware
 # =============================================================================
 
+import time
+
+import structlog
 from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
-import time
-import structlog
 
 logger = structlog.get_logger()
 
